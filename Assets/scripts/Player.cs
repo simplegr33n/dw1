@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -12,6 +13,9 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (gameObject.transform.position.y < -10) {
+			die();
+		}
 		Move();
 	}
 
@@ -25,9 +29,9 @@ public class Player : MonoBehaviour {
 		// ANIMATIONS
 		// PLAYER DIRECTION
 		if (moveX > 0.0f && !facingRight) {
-			FlipPlayer();
+			HorizontalFlip();
 		} else if (moveX < 0.0f && facingRight) {
-			FlipPlayer();
+			HorizontalFlip();
 		}
 		// PHYSICS
 		gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2 (moveX * playerSpeed, gameObject.GetComponent<Rigidbody2D>().velocity.y);
@@ -39,11 +43,15 @@ public class Player : MonoBehaviour {
 		GetComponent<Rigidbody2D>().AddForce (Vector2.up * playerJumpPower);
 	}
 
-	void FlipPlayer() {
+	void HorizontalFlip() {
 		//FLIP PLAYER CODE
 		facingRight = !facingRight;
 		Vector2 localScale = gameObject.transform.localScale;
 		localScale.x *= -1;
 		transform.localScale = localScale;
+	}
+
+	void die() {
+		SceneManager.LoadScene("Prototype_1");
 	}
 }
