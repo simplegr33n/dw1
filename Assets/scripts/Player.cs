@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_Move : MonoBehaviour {
+public class Player : MonoBehaviour {
 
 	public int playerSpeed = 10;
 	public bool facingRight = true;
@@ -12,10 +12,11 @@ public class Player_Move : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		PlayerMove();
+		Move();
 	}
 
-	void PlayerMove() {
+
+	void Move() {
 		// CONTROLS
 		moveX = Input.GetAxis("Horizontal");
 		if (Input.GetButtonDown("Jump")) {
