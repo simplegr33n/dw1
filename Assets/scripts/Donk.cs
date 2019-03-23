@@ -7,7 +7,6 @@ public class Donk : MonoBehaviour
 {
 
     public int playerSpeed = 10;
-    public bool facingRight = true;
     public int playerJumpPower = 1250;
     public float moveX;
 	public bool isGrounded;
@@ -34,14 +33,19 @@ public class Donk : MonoBehaviour
             Jump();
         }
         // ANIMATIONS
-        // PLAYER DIRECTION
-        if (moveX > 0.0f && !facingRight)
-        {
-            HorizontalFlip();
+        if (moveX != 0) {
+            GetComponent<Animator>().SetBool ("IsRunning", true);
+        } else {
+            GetComponent<Animator>().SetBool ("IsRunning", false);
         }
-        else if (moveX < 0.0f && facingRight)
+        // PLAYER DIRECTION
+        if (moveX > 0.0f)
         {
-            HorizontalFlip();
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else if (moveX < 0.0f)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
         }
         // PHYSICS
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(moveX * playerSpeed, gameObject.GetComponent<Rigidbody2D>().velocity.y);
@@ -56,15 +60,6 @@ public class Donk : MonoBehaviour
         GetComponent<Rigidbody2D>().AddForce(Vector2.up * playerJumpPower);
 		isGrounded = false;
 		Debug.Log("jumping, isGrounded " + isGrounded);
-    }
-
-    void HorizontalFlip()
-    {
-        //FLIP PLAYER CODE
-        facingRight = !facingRight;
-        Vector2 localScale = gameObject.transform.localScale;
-        localScale.x *= -1;
-        transform.localScale = localScale;
     }
 
     void Die()
